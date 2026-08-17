@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useDebouncedSearch } from "../helperHooks/useDebouncedSearch";
-import { useFetch } from "../helperHooks/useFetch";
+import { useDebouncedSearch } from "../../../hooks/useDebouncedSearch";
+import { useFetch } from "../../../hooks/useFetch";
 
 const useSearchInput = () => {
   const dropdownRef = useRef(null);

@@ -1,5 +1,5 @@
 "use client";
-import useSearchInput from "../hooks/feature/useSearchInput";
+import useSearchInput from "../../features/DebouncedSearch/hooks/useSearchInput";
 
 const SearchInput = () => {
   const {
@@ -16,12 +16,12 @@ const SearchInput = () => {
   } = useSearchInput();
 
   return (
-    <div className="flex flex-col items-center min-h-screen py-2">
-      <div ref={dropdownRef}>
+    <div className="w-full">
+      <div ref={dropdownRef} className="w-full">
         <input
           type="text"
           placeholder="Enter text"
-          className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 w-55"
+          className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
           onChange={handleSearchChange}
           onKeyDown={handleKeyChange}
         />
