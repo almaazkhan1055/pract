@@ -1,19 +1,56 @@
 "use client";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createTodo } from "./states/todoSlice";
+import ListRenderer from "@/app/components/ui/ListRenderer";
 import Button from "@/app/components/ui/Button";
-import SearchInput from "@/app/components/ui/SearchInput";
-import React from "react";
 
 const TodoList = () => {
-  const handleClick = () => {
-    console.log("clicked");
+  const dispatch = useDispatch();
+  const { todoList } = useSelector((state) => state.todo);
+
+  const [input, setInput] = useState("");
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setInput(value);
   };
+  const handleAddTodo = (e) => {
+    e.preventDefault();
+
+    if (!input.trim()) return;
+
+    dispatch(
+      createTodo({
+        id: Date.now(),
+        title: input,
+      }),
+    );
+    setInput("");
+  };
+
   return (
     <div className="flex flex-col gap-5">
       <h1 className="text-2xl font-medium">Todo List</h1>
-      <div className="flex items-center justify-between gap-4">
-        <SearchInput />
-        <Button onClick={handleClick}>Add</Button>
-      </div>
+      <form
+        className="flex items-center justify-between gap-4"
+        onSubmit={handleAddTodo}
+      >
+        <input
+          type="text"
+          className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+          onChange={handleChange}
+          name="todoList"
+          value={input}
+        />
+
+        <Button type="submit">Add</Button>
+      </form>
+      <ul className="flex flex-col gap-5">
+        {todoList?.map((todo) => (
+          <ListRenderer key={todo.id} item={todo} />
+        ))}
+      </ul>
     </div>
   );
 };
