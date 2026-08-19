@@ -1,11 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createTodo } from "./states/todoSlice";
+import { createTodo, setTodos } from "./states/todoSlice";
 import ListRenderer from "@/app/components/ui/ListRenderer";
 import Button from "@/app/components/ui/Button";
 
 const TodoList = () => {
+  const hasLoaded = useRef(false);
+
   const dispatch = useDispatch();
   const { todoList } = useSelector((state) => state.todo);
 
@@ -28,6 +30,21 @@ const TodoList = () => {
     );
     setInput("");
   };
+
+  useEffect(() => {
+    if (!hasLoaded.current) {
+      const storedTodos = localStorage.getItem("todos");
+
+      if (storedTodos) {
+        dispatch(setTodos(JSON.parse(storedTodos)));
+      }
+
+      hasLoaded.current = true;
+      return;
+    }
+
+    localStorage.setItem("todos", JSON.stringify(todoList));
+  }, [todoList, dispatch]);
 
   return (
     <div className="flex flex-col gap-5">
