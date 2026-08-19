@@ -15,9 +15,11 @@ export const todoSlice = createSlice({
     createTodo: (state, action) => {
       state.todoList.push(action.payload);
     },
+
     startEditingTodo: (state, action) => {
       state.currentEditingTodo = action.payload;
     },
+
     updateTodo: (state, action) => {
       const { id, title } = action.payload;
       const todo = state.todoList.find((item) => item.id === id);
@@ -26,10 +28,19 @@ export const todoSlice = createSlice({
       }
       state.currentEditingTodo = null;
     },
+
     deleteTodo: (state, action) => {
       state.todoList = state.todoList.filter(
         (item) => item.id !== action.payload.id,
       );
+    },
+
+    changeTodoStatus: (state, action) => {
+      const { id, completed } = action.payload;
+      const todo = state.todoList.find((item) => item.id === id);
+      if (todo) {
+        todo.completed = completed;
+      }
     },
   },
 });
@@ -40,5 +51,6 @@ export const {
   updateTodo,
   deleteTodo,
   setTodos,
+  changeTodoStatus,
 } = todoSlice.actions;
 export default todoSlice.reducer;
